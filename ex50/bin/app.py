@@ -86,27 +86,32 @@ def start(player): # start room
     print('To the West is an ominous door.')
     print('To the East is a dark stairwell.\n')
     
-    if time.time()-t0 > timeallowed: # Timer countdown
-        print '\nGame over! You ran out of time.'
-        return None
-    printStartChoices(choices) # prints all valid choices
-    action = raw_input('\nYour choice: ')
-    if action.isdigit() and int(action) in choices: # catches invalid user input
-        action = int(action)
-        if action == 1: # north bedroom
-            print ('You go north.')
-            time.sleep(0)
-            lightRoom(player)
-        elif action == 2: # west locked room
-            print ('You go west.')
-            time.sleep(0)
-            doorRoom(player)
-        else: # east stair room
-            print ('You go east.')
-            time.sleep(0)
-            stairRoom(player)
-    else:
-        print('Not valid choice. Input again.')
+    
+    while True:
+        if time.time()-t0 > timeallowed: # Timer countdown
+            print '\nGame over! You ran out of time.'
+            return None
+        printStartChoices(choices) # prints all valid choices
+        action = raw_input('\nYour choice: ')
+        if action.isdigit() and int(action) in choices: # catches invalid user input
+            action = int(action)
+            if action == 1: # north bedroom
+                print ('You go north.')
+                time.sleep(0)
+                lightRoom(player)
+                return None
+            elif action == 2: # west locked room
+                print ('You go west.')
+                time.sleep(0)
+                doorRoom(player)
+                return None
+            else: # east stair room
+                print ('You go east.')
+                time.sleep(0)
+                stairRoom(player)
+                return None
+        else:
+            print('Not valid choice. Input again.')
                 
         
 def printStartChoices(choices): # prints all actions that can be taken
@@ -450,7 +455,7 @@ def lightRoom(player):
     
     print('\nYou enter a room ominously lit with a torch.')
     print('There is a bed in the corner. It looks very comfortable.')
-    print('Right next to the bed, you spot a black coin on the floor.')
+    print('Right next to the bed, you spot a black thing on the floor.')
     print('The room only has one window, just above the bed on the far wall.')
     print('Other than the bed, there are only two other pieces of furniture in the room: a closet and a bookshelf.')
     print('On top of the bookshelf lies a CD. It is labeled \'Mo Bamba.\'\n')
@@ -541,7 +546,7 @@ def lightRoom(player):
 def printLightChoices(choices): # prints all actions that can be taken
     time.sleep(0) # allows the user to process what happened after their last action
     print('\nChoices: ')
-    choicesText = ['1. sleep','2. look out the window','3. investigate the closet','4. check out the bookshelf','5. play Mo Bamba','6. take the torch','7. pick up the black coin','8. leave the room','9. pick up dropped item'
+    choicesText = ['1. sleep','2. look out the window','3. investigate the closet','4. check out the bookshelf','5. play Mo Bamba','6. take the torch','7. look at the black thing','8. leave the room','9. pick up dropped item'
                     ,'10. drop an item','11. open backpack'] # list of all possible choices
     for i in range(1, 12): # loops through all possible actions
         if i in choices: # True if action number i is a valid action
@@ -556,7 +561,6 @@ def chanceRoom(player):
     
     choices = [1,2,3,4,5] # list of choices player can make
     if 'green coin' in all_dropped or 'green coin' in player.backpack: # makes sure that if player has picked up item before, can't pick up again
-        print('why tho')
         choices.remove(2)
     action = 0
     
